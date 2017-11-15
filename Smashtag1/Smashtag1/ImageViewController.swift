@@ -68,6 +68,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate{
     // (will install it into the content area of the scroll view)
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.automaticallyAdjustsScrollViewInsets = false // this delete the whiteSpaces from the top and bottom of the image
         scrollView.addSubview(imageView)
     }
     
@@ -89,6 +90,15 @@ class ImageViewController: UIViewController, UIScrollViewDelegate{
     // required for zooming
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
+    }
+    
+    // bug fix - when change orientation - update the dimention
+    // (before the fix - after the rotate, the scroll worked partially)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil) { _ in
+            self.image = self.image
+        }
     }
     
 //    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

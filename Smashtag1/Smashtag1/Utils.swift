@@ -12,7 +12,7 @@ class Utils: NSObject {
 
     public static let userDefaultRecentSearchesKey = "recentSearches"
 
-    // store new search in User Default
+    // store new search in User Default - so the data will be save between launches of the app
     static func storeTweetSearchInUserDefault(searchText searchTextToStore: String?) {
         
         let defaults = UserDefaults.standard
@@ -20,7 +20,7 @@ class Utils: NSObject {
         if let searchToStore = searchTextToStore {
             
             // maybe implement with dictionary will be better
-            if !storedSearches.contains(searchToStore.lowercased() ){
+            if !storedSearches.contains(searchToStore.lowercased()) {
                 storedSearches.insert(searchToStore.lowercased(), at: 0)
             }
         }

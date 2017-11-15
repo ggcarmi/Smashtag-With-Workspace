@@ -32,6 +32,8 @@ class TweetTableViewCell: UITableViewCell
     // we just update our outlets using this method
     private func updateUI() {
         
+        // Task 1 - highlight text
+
         let tweetTextToHighlight = NSMutableAttributedString(string: tweet?.text ?? "" , attributes: [:])
         
         if let tweet = tweet {
@@ -43,7 +45,7 @@ class TweetTableViewCell: UITableViewCell
 
         tweetUserLabel?.text = tweet?.user.description // tweet title-user
         
-        // image
+        // update profile image
         if let profileImageURL = tweet?.user.profileImageURL {
             
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in

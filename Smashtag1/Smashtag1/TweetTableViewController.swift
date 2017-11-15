@@ -14,7 +14,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     private var tweets = [Array<Twitter.Tweet>]()
 
 
-    // to search for specific hastags
+    // to search for specific hashtags
     @IBOutlet weak var searchTextField: UITextField! {
         didSet{
             searchTextField.delegate = self
@@ -59,8 +59,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     // and then let the table view know that we added a section
     // (it will then call our UITableViewDataSource to get what it needs)
     private func searchForTweets() {
-        // "lastTwitterRequest?.newer ??" was added after lecture for REFRESHING
-        print("GGG - searchForTweets")
+//        "lastTwitterRequest?.newer ??" was added after lecture for REFRESHING
+//        print("GGG - searchForTweets")
         if let request = lastTwitterRequest?.newer ?? twitterRequest() {
             lastTwitterRequest = request
             request.fetchTweets { [weak self] newTweets in      // this is off the main queue

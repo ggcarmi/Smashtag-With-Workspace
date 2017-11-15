@@ -10,8 +10,9 @@ import UIKit
 import Twitter
 class MentionsTableViewController: UITableViewController {
 
+    
     /**********************  vars  **********************/
-
+    
     // our model - 4 sections, for : images, hashtags, url's, user mentions
     // each section contain array of MentionElement ( wrapper for diffrent type of mentions/images )
     private var sections = [SingleSectionOfElements]()
@@ -25,7 +26,7 @@ class MentionsTableViewController: UITableViewController {
         }
     }
     
-    
+
     /********************** internal structs **********************/
     
     
@@ -41,7 +42,7 @@ class MentionsTableViewController: UITableViewController {
         static let mentionIdentifier = "Mention Identifier"
         
         static let showUrlIdentifier = "Show Url"
-        static let showMentionIdentifier = "Show Mention"
+        static let showMentionIdentifier = "Show Mention" // hashtag or user mention
         static let showImageIdentifier = "Show Image"
     }
     
@@ -128,6 +129,7 @@ class MentionsTableViewController: UITableViewController {
 
     // task 5
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
@@ -144,18 +146,24 @@ class MentionsTableViewController: UITableViewController {
 //        default:
 //            <#code#>
 //        }
+        
+        // case 1 - we press on cell that contains Mention
         if identifier == Identifiers.showMentionIdentifier {
+            
+            // we use .contents to cover both cases - if its navigation controller or its the controller itself
             if let tweetTableViewController = segue.destination.contents as? TweetTableViewController, let senderCell = sender as? UITableViewCell {
             
                 if let newMentionKeyword = senderCell.textLabel?.text {
+                    // set the searchText var of the new controller (the target) to the text we get from the cell
                     tweetTableViewController.searchText = newMentionKeyword
                 }
             }
         }
         
-        else if identifier == Identifiers.showImageIdentifier {
-            if let imageViewController = segue.destination.contents as? ImageViewController,
-                let senderCell = sender as? ImageTableViewCell {
+        // case 2 - we press on cell that contains Image
+        else if identifier == Identifiers.showImageIdentifier {           // 1 - check the identifier of the segue is correct
+            if let imageViewController = segue.destination.contents as? ImageViewController,  // 2 - check that the target Controller Class is the correct type
+                let senderCell = sender as? ImageTableViewCell {         // 3 - check the sender cell type is the coorect class type
                 
                     DispatchQueue.main.async {
                         imageViewController.spinner.startAnimating()
@@ -166,41 +174,41 @@ class MentionsTableViewController: UITableViewController {
         
     }
     
-//    // task 6
-//    // we will use this func to handle the case the user click on Url
-//    // if its url - ofen safary, else perporm segue (prepare)
-//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-//
-//        if identifier == Identifiers.showMentionIdentifier {
-//
-//            if let senderCell = sender as? UITableViewCell,
-//            let indexPath = tableView.indexPath(for: senderCell),
-//            sections[indexPath.section].mentionsType == "Url's" {
-//
-//                guard let url = URL(string: senderCell.textLabel?.text ?? "") else { return false}
-//
-//                if #available(iOS 10.0, *) {
-//                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                } else {
-//                    UIApplication.shared.openURL(url)
-//                }
-//
-//                return false
-//            }else{
-//                return true
-//            }
-//        }else{
-//            // image case
-//            return true
-//        }
-//    }
+    // task 6
+    // we will use this func to handle the case the user click on Url
+    // if its url - ofen safary, else perporm segue (prepare)
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+
+        if identifier == Identifiers.showMentionIdentifier {
+
+            if let senderCell = sender as? UITableViewCell,
+            let indexPath = tableView.indexPath(for: senderCell),
+            sections[indexPath.section].mentionsType == "Url's" {
+
+                guard let url = URL(string: senderCell.textLabel?.text ?? "") else { return false}
+
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+
+                return false
+            }else{
+                return true
+            }
+        }else{
+            // image case
+            return true
+        }
+    }
  
 
     
 
     
-    
-    // need to refactor , itterate the enum
+    // create the section - our model(data) - and fill it with the data from the relevant Tweet
+    // need to rewrite , itterate the enum
     func createSections(tweet: Twitter.Tweet) -> [SingleSectionOfElements] {
         
         var sections = [SingleSectionOfElements]()
