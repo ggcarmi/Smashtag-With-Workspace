@@ -53,9 +53,28 @@ class RecentSearchesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete){
+            
+            let textToRemove = recentSearches.remove(at: indexPath.item)
+
+            //delete from tableView
+            tableView.deleteRows(at: [indexPath], with: .automatic )
+            
+            //delete from database
+            Utils.removeTweetSearchFromUserDefault(searchText: textToRemove )
+//            Utils.removeTweetSearchFromUserDefault()
 
 
-    
+            
+//            recentSearches = UserDefaults.standard.array(forKey: Utils.userDefaultRecentSearchesKey) as? [String] ?? [String]()
+//            tableView.reloadData()
+        }
+    }
     
     /*
     // Override to support conditional editing of the table view.
