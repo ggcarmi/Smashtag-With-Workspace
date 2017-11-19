@@ -13,9 +13,11 @@ class RecentSearchesTableViewController: UITableViewController {
     
     var recentSearches = UserDefaults.standard.array(forKey: Utils.userDefaultRecentSearchesKey) as? [String] ?? [String]()
     
+    
     private struct Identifiers {
         static let showMentionIdentifier = "Show Mention"
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +45,6 @@ class RecentSearchesTableViewController: UITableViewController {
         return recentSearches.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Recent Search Identifier", for: indexPath)
@@ -53,9 +54,23 @@ class RecentSearchesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete){
+            
+            let textToRemove = recentSearches.remove(at: indexPath.item)
 
-    
+            //delete from tableView
+            tableView.deleteRows(at: [indexPath], with: .automatic )
+            
+            //delete from database
+            Utils.removeTweetSearchFromUserDefault(searchText: textToRemove )
+
+        }
+    }
     
     /*
     // Override to support conditional editing of the table view.

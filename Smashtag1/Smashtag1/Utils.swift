@@ -26,5 +26,17 @@ class Utils: NSObject {
         }
         defaults.set(storedSearches, forKey: Utils.userDefaultRecentSearchesKey)        
     }
+    
+    static func removeTweetSearchFromUserDefault(searchText searchTextToDelete: String?) {
+        let defaults = UserDefaults.standard
+        var storedSearches = defaults.object(forKey: Utils.userDefaultRecentSearchesKey ) as? [String] ?? [String]()
+        if let searchToDelete = searchTextToDelete {
+
+            if storedSearches.contains(searchToDelete.lowercased()) {
+                storedSearches.remove(at: storedSearches.index(of: searchToDelete.lowercased() )!)
+            }
+        }
+        defaults.set(storedSearches, forKey: Utils.userDefaultRecentSearchesKey)
+    }
 
 }

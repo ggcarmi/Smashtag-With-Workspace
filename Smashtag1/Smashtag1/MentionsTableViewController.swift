@@ -207,8 +207,8 @@ class MentionsTableViewController: UITableViewController {
     
 
     
-    // create the section - our model(data) - and fill it with the data from the relevant Tweet
-    // need to rewrite , itterate the enum
+    // create the sections - our model(data) - and fill it with the data from the relevant Tweet
+    // need to rewrite  (itterate the enum)
     func createSections(tweet: Twitter.Tweet) -> [SingleSectionOfElements] {
         
         var sections = [SingleSectionOfElements]()
@@ -244,26 +244,6 @@ class MentionsTableViewController: UITableViewController {
             sections.append(SingleSectionOfElements(mentionsType: "Url's", mentionsArray: urls ))
         }
         
-//        if tweet.userMentions.count > 0 {
-//            var userMentions = [MentionElement]()
-//
-//            for userMention in tweet.userMentions {
-//                userMentions.append(MentionElement.UserMention(userMention.keyword))
-//            }
-//
-//            var userItselfMention = "@"
-//            userItselfMention += tweet.user.screenName
-//            userMentions.append(MentionElement.UserMention(userItselfMention))
-//
-//            sections.append(SingleSectionOfElements(mentionsType: "User Mentions", mentionsArray: userMentions ))
-//        }else{
-//            // if the section of user mention empty - we still want to add the user itself as user mention
-//            var userItselfMention = "@"
-//            userItselfMention += tweet.user.screenName
-//            userMentions.append(MentionElement.UserMention(userItselfMention))
-//
-//            sections.append(SingleSectionOfElements(mentionsType: "User Mentions", mentionsArray: userMentions ))
-//        }
         
         var userMentions = [MentionElement]()
         
