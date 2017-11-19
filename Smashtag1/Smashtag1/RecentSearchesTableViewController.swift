@@ -13,9 +13,11 @@ class RecentSearchesTableViewController: UITableViewController {
     
     var recentSearches = UserDefaults.standard.array(forKey: Utils.userDefaultRecentSearchesKey) as? [String] ?? [String]()
     
+    
     private struct Identifiers {
         static let showMentionIdentifier = "Show Mention"
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +45,6 @@ class RecentSearchesTableViewController: UITableViewController {
         return recentSearches.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Recent Search Identifier", for: indexPath)
@@ -67,12 +68,7 @@ class RecentSearchesTableViewController: UITableViewController {
             
             //delete from database
             Utils.removeTweetSearchFromUserDefault(searchText: textToRemove )
-//            Utils.removeTweetSearchFromUserDefault()
 
-
-            
-//            recentSearches = UserDefaults.standard.array(forKey: Utils.userDefaultRecentSearchesKey) as? [String] ?? [String]()
-//            tableView.reloadData()
         }
     }
     

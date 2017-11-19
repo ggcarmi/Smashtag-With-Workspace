@@ -6,6 +6,7 @@
 //  Copyright © 2017 Gai Carmi. All rights reserved.
 //
 
+// this class is not in use - we use builf in safari instead
 
 import UIKit
 
